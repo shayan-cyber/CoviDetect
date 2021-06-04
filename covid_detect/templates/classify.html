@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classification</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link
+      href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      id="bootstrap-css"
+    />
+    <link rel="stylesheet" href="{% static 'dragdrop.css' %}" />
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <style>
+    #triangle-topleft {
+      width: 0;
+      height: 0;
+      border-top: 150px solid rgba(0, 212, 255, 1);
+      border-right: 150px solid transparent;
+    }
+    .virus{
+        animation: rotation 2.5s linear infinite;
+
+    }
+    .right{
+        animation: levitate 1.5s  infinite ease-in-out ;
+    }
+    @keyframes rotation {
+        from{
+            transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(359deg);
+        }
+        
+    }
+    @keyframes levitate {
+        0% { transform: translate(0,  0px); }
+    50%  { transform: translate(0, 35px); }
+    100%   { transform: translate(0, -0px); }
+        
+    }
+  </style>
+  <body>
+    <div id="triangle-topleft"></div>
+
+    <div style="margin-top: -5rem" class="container mb-2">
+      <center>
+        <img
+          style="width: 10rem; height: 10rem"
+          src="{% static 'puzzle-23.png' %}"
+          alt=""
+        />
+      </center>
+      
+    </div>
+
+    <div class="container">
+      <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">{{prediction}}</h1>
+          <div class="row">
+              <div class="col-md-8 fs-4">
+                <label for="#prog"><strong>Accuracy:</strong><strong>  {{probability}}%</strong></label>
+                <div id="prog" class="progress mt-1 mb-1">
+                  <div
+                    class="
+                      progress-bar progress-bar-striped progress-bar-animated
+                      bg-success
+                    "
+                    role="progressbar"
+                    aria-valuenow="{{probability}}"
+                    aria-valuemax="100"
+                    style="width: {{probability}}%"
+                  ></div>
+                </div>
+                
+                <p >
+                    It's just a fun machine learning project, Don't take it too seriously.It's not fully correct as the accuracy is not 100%.
+                    I've trained a SVM model using a dataset from kaggle.
+                  </p>
+              </div>
+            
+            {% if prediction == 'COVID-19' %}
+            <div class="col-md-4 ">
+                <img class="virus" style="margin-left: 4rem;" src="https://img.icons8.com/nolan/124/coronavirus.png"/>
+            </div>
+            {% elif prediction == 'Normal' %}
+           
+                
+              <div class="col-md-4 ">
+                <img class="right" style="margin-left: 4rem;" src="https://img.icons8.com/cotton/124/000000/checked--v3.png"/>
+              </div>
+            {% elif prediction == 'Viral Pneumonia' %}
+            <div class="col-md-4 ">
+                <img class="right" style="margin-left: 4rem;" src="https://img.icons8.com/nolan/124/thermometer.png"/>
+              </div>
+            {% else %}
+            <div class="col-md-4 ">
+                <img class="right" style="margin-left: 4rem;" src="https://img.icons8.com/cotton/124/000000/lungs--v2.png"/>
+          
+              </div>
+            {% endif %}
+          </div>
+          
+          <a href="{% url 'home' %}" class="btn btn-primary btn-lg mt-3" type="button">
+            Predict Again
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
